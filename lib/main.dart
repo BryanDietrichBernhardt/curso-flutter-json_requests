@@ -10,6 +10,18 @@ class Todo {
   final bool completed;
 
   Todo(this.userId, this.id, this.title, this.completed);
+
+  // usamos o factory para mapear uma lista ao invés de apenas um Todo
+  factory Todo.fromJson(Map json) {
+    return Todo(json['userId'], json['id'], json['title'], json['completed']);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'id': id,
+        'title': title,
+        'completed': completed,
+      };
 }
 
 void main() async {
@@ -24,9 +36,8 @@ void main() async {
 
         Map<String, dynamic> data = json.decode(value.body);
 
-        Todo todo = new Todo(
-            data['userId'], data['id'], data['title'], data['completed']);
-        print(todo.title);
+        Todo todo = new Todo.fromJson(data);
+        print(todo.toJson());
 
         // cria map de key (String) e value (dynamic) para armazenar JSON
         //print(json.decode(value.body));
