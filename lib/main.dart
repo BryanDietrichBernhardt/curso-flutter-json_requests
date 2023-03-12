@@ -6,7 +6,7 @@ import 'dart:async';
 void main() async {
   String title = "";
 
-  Uri uri = Uri.https('jsonplaceholder.typicode.com', '/todos/1');
+  Uri uri = Uri.https('jsonplaceholder.typicode.com', '/todos');
   final response = http.get(uri);
   await response.then(
     (value) {
@@ -14,10 +14,11 @@ void main() async {
         print('Página carregada.');
 
         // cria map de key (String) e value (dynamic) para armazenar JSON
-        Map<String, dynamic> data = json.decode(value.body);
-        print(data);
-        print(data['title']);
-        title = data['title'];
+        print(json.decode(value.body));
+        List data = json.decode(value.body) as List;
+        data.forEach((element) {
+          print(element['title']);
+        });
       } else {
         print('Erro.');
         title = "Request error.";
